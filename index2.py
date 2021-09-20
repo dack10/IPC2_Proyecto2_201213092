@@ -33,7 +33,7 @@ def cargarMaquina():
 
 def estudiante():
     estud=Tk()
-    estud.title("ESTUDIANTE")
+    estud.title("ESTUDIANTE    dgasdgsagsagasdgasgasg")
     L=LabelFrame(estud,text="INFORMACION")
 
     L.grid(row=0,column=0,columnspan=3,pady=20)
