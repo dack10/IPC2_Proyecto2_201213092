@@ -17,7 +17,7 @@ def cargarMaquina():
     objetoTree = xml.parse(archivo)
     root = objetoTree.getroot()
     
-    CantidadLineas = root.findtext("CantiddafsadfasdhgadfgasfdsfgsdafasdfadLineasPrgasdgasdgasfasgdasduccion")
+    CantidadLineas = root.findtext("Cantidad de produccion")
 
     messagebox.showinfo(title="cantidad",message="cantidad es: "+CantidadLineas)
     c=int(CantidadLineas)
