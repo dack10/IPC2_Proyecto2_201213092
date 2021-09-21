@@ -10,7 +10,7 @@ import re
 
 lista_lineas= Lista()
 def abrir():
-    messagebox.showinfo(title="eehhh",message="hola")
+    messagebox.showinfo(title="Mensaje",message="hola")
 
 def cargarMaquina():
     archivo = filedialog.askopenfilename(title="abrir",filetypes=(("Archivos xml","*.xml"),("Archivo Python","*.py")))
