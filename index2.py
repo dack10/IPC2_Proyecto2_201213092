@@ -1,5 +1,5 @@
-from lista import Lista
-from Linea_Produccion import Linea_Produccion
+from Lista_componentes import Lista
+from Lista_Linea_Produccion import Linea_Produccion
 from tkinter import *
 from tkinter import ttk
 from tkinter import messagebox
