@@ -6,6 +6,7 @@ from tkinter import messagebox
 import tkinter
 from tkinter import filedialog
 import xml.etree.ElementTree as xml
+import re
 
 lista_lineas= Lista()
 def abrir():
@@ -17,7 +18,7 @@ def cargarMaquina():
     objetoTree = xml.parse(archivo)
     root = objetoTree.getroot()
     
-    CantidadLineas = root.findtext("Cantidad de produccion")
+    CantidadLineas = root.findtext("CantidadLineasProduccion")
 
     messagebox.showinfo(title="cantidad",message="cantidad es: "+CantidadLineas)
     c=int(CantidadLineas)
@@ -29,6 +30,9 @@ def cargarMaquina():
     
     for cantidad in range(1,c+1):
         Linea_Produccion()
+    txt = "the rain in spain"
+    x = re.findall("the",txt)
+    print(x)
     
 
 def estudiante():
