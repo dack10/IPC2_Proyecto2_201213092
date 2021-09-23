@@ -20,7 +20,26 @@ class listaSimulacion:
             while aux!= None:
                 print(str(aux.id), aux.producto,aux.nombreSimulacion)
                 aux = aux.siguiente
-    
+
+    def cantidadElementos(self):
+        contador=0
+        if self.inicio!=None:
+            aux=self.inicio
+            while aux!=None:
+                contador=contador+1
+                aux=aux.siguiente
+            print("cantidad de elemetnos"+str(contador))
+            return contador
+
+    def verificar(self,id):
+        if self.inicio!=None:
+            aux =self.inicio
+            while aux!=None:
+                if aux.id==id:
+                    return aux.producto
+                    
+                aux = aux.siguiente
+
     def modificar(self,id,producto):
         if self.inicio != None:
             aux = self.inicio

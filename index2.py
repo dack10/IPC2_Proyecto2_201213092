@@ -17,7 +17,8 @@ def abrir():
     messagebox.showinfo(title="Mensaje",message="hola")
 
 def reporteColaSecuencia():
-    return None
+
+    print(listaProductos.get())
 
 def cargaSimulacion():
     archivo = filedialog.askopenfilename(title="abrir",filetypes=(("Archivos xml","*.xml"),("Archivo Python","*.py")))
@@ -32,8 +33,13 @@ def cargaSimulacion():
 
             productos.insertar(contador,str(producto.text),str(name))
             contador=contador+1
-    productos.recorrer()        
+    productos.recorrer()   
 
+    messagebox.showinfo(title="AVISO",message="SIMULACION CARGADA")    
+
+    cantidadP=int(productos.cantidadElementos())
+    listaProductos
+    
             
 
     
@@ -90,6 +96,7 @@ def cargarMaquina():
                                 booleano=False
                 producto=producto+1
     secuencias.recorrerColumnas()
+    messagebox.showinfo(title="AVISO",message="MAQUINA CARGADA")
 
 def estudiante():
     estud=Tk()
@@ -142,6 +149,8 @@ mnuAyuda.add_command(label="INFORMACION ESTUDIANTE",command=estudiante)
 mnuAyuda.add_command(label="INFORMACION APLICACION")
 barraMenu.add_cascade(label="AYUDA",menu=mnuAyuda)
 
+
+
 ventana.config(menu=barraMenu)
 
 tree = ttk.Treeview(height=10,columns=2)
@@ -149,4 +158,21 @@ tree.grid(row=4,column=0,columnspan=2)
 tree.heading("#0",text="Name",anchor=CENTER)
 tree.heading("#1", text="Price",anchor=CENTER)
 tree.pack(side=tkinter.RIGHT)
+
+lblProductos = Label(ventana,text="Productos: ").place(x=10,y=10)
+"""
+listaProductos = Listbox(ventana,width=40)
+listaProductos.insert(0,"PROGRAMACION BASICA")
+listaProductos.place(x=10,y=38)"""
+
+listaProductos=ttk.Combobox(ventana,width=40)
+listaProductos.place(x=10,y=38)
+
+
+
+
+botonGraficarSecuencia=Button(ventana,text="GRAFICA SECUENCIA",command=reporteColaSecuencia)
+botonGraficarSecuencia.place(x=75,y=10)
+
+
 ventana.mainloop()
