@@ -7,15 +7,36 @@ import tkinter
 from tkinter import filedialog
 import xml.etree.ElementTree as xml
 import re
+from simulacionLista import listaSimulacion
 from Lista_componentes import matriz
 from SecuenciaLista import matriz_SecuenciaProducto
 mat = matriz()
 secuencias = matriz_SecuenciaProducto()
+productos=listaSimulacion()
 def abrir():
     messagebox.showinfo(title="Mensaje",message="hola")
 
 def reporteColaSecuencia():
     return None
+
+def cargaSimulacion():
+    archivo = filedialog.askopenfilename(title="abrir",filetypes=(("Archivos xml","*.xml"),("Archivo Python","*.py")))
+    objetoTree = xml.parse(archivo)
+    root = objetoTree.getroot()
+    for nombre in root.findall("Nombre"):
+        name=nombre.text
+    
+    for listado in root.findall("ListadoProductos"):
+        contador=1
+        for producto in listado.findall("Producto"):
+
+            productos.insertar(contador,str(producto.text),str(name))
+            contador=contador+1
+    productos.recorrer()        
+
+            
+
+    
 def cargarMaquina():
     archivo = filedialog.askopenfilename(title="abrir",filetypes=(("Archivos xml","*.xml"),("Archivo Python","*.py")))
     objetoTree = xml.parse(archivo)
@@ -103,7 +124,7 @@ barraMenu= Menu(ventana)
 
 mnuArchivo=Menu(barraMenu,tearoff=0)
 mnuArchivo.add_command(label="CARGAR MAQUINA",command=cargarMaquina)
-mnuArchivo.add_command(label="CARGAR SIMULACION")
+mnuArchivo.add_command(label="CARGAR SIMULACION",command=cargaSimulacion)
 mnuArchivo.add_command(label="Guardar")
 mnuArchivo.add_command(label="Salir",command=ventana.destroy)
 barraMenu.add_cascade(label="ARCHIVO",menu=mnuArchivo)
