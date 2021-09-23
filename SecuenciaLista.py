@@ -1,22 +1,22 @@
-from Nodo_Linea_Produccion import nodoEncabezado
-from Nodo_Componente import Nodo
-from Lista_Linea_Produccion import listaEncabezado
+from SecuenciaNodo import Nodo
+from ProductoEncabezado import listaEncabezado
+from ProductoNodoEncabezado import nodoEncabezado
 
 # clase para el manejo de la matriz, controla tanto la insercion de nodos tipo encabezado 
 # como la insercion de nodos internos a la matriz, se maneja ordenamiento ascendente
-class matriz:
+class matriz_SecuenciaProducto:
     
     def __init__(self):
         self.eFilas = listaEncabezado()  # instancia lista encabezados por filas
         self.eColumnas = listaEncabezado() # instancia lista encabezados por columnas
     
-    def insertar(self, fila, columna, valor):
-        nuevo = Nodo(fila, columna, valor)
+    def insertar(self, fila, columna, valor,producto):
+        nuevo = Nodo(fila, columna, valor,producto)
 
         # insercion encabezado por filas
         eFila = self.eFilas.getEncabezado(fila)
         if eFila == None:                           # no existe el encabezado solicitado
-            eFila = nodoEncabezado(fila)            # se crea el nuevo encabezado
+            eFila = nodoEncabezado(fila,producto)            # se crea el nuevo encabezado
             eFila.accesoNodo = nuevo
             self.eFilas.setEncabezado(eFila)        
         else:                                       # ya existe el encabezado solicitado
@@ -43,7 +43,7 @@ class matriz:
         # insercion encabezado por columnas
         eColumna = self.eColumnas.getEncabezado(columna)
         if eColumna == None:                           # no existe el encabezado solicitado
-            eColumna = nodoEncabezado(columna)            # se crea el nuevo encabezado
+            eColumna = nodoEncabezado(columna,producto)            # se crea el nuevo encabezado
             eColumna.accesoNodo = nuevo
             self.eColumnas.setEncabezado(eColumna)        
         else:                                       # ya existe el encabezado solicitado
@@ -89,9 +89,9 @@ class matriz:
         print("\n****************** Recorrido por columnas ******************")
 
         while eColumna != None:
-
+            
             actual = eColumna.accesoNodo
-            print("\nColumna "+str(actual.columna))
+            print("\nColumna "+str(actual.columna)+"PRODUCTO "+str(actual.producto))
             print("Fila   Valor")
             while actual != None:
                 print(str(actual.fila)+"      "+actual.valor)

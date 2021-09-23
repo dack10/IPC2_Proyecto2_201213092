@@ -1,5 +1,5 @@
-from Nodo_Componente import Nodo
-from Nodo_Linea_Produccion import nodoEncabezado
+from ProductoNodoEncabezado import nodoEncabezado
+
 
 # clase para el manejo de encabezados(filas y columnas), contiene insertar y obtener encabezado
 class listaEncabezado:
