@@ -13,12 +13,21 @@ from SecuenciaLista import matriz_SecuenciaProducto
 mat = matriz()
 secuencias = matriz_SecuenciaProducto()
 productos=listaSimulacion()
+
 def abrir():
     messagebox.showinfo(title="Mensaje",message="hola")
 
-def reporteColaSecuencia():
 
-    print(listaProductos.get())
+def reporteColaSecuencia():
+    for item in listaProductos.curselection():
+        sii=listaProductos.get(item)
+        messagebox.showinfo(title="verificar",message=sii)
+    
+    cantEle = secuencias.cantidadElementos(sii)
+    for elem in range(1,cantEle+1):
+        lb = tkinter.Label(ventana,text=str(secuencias.obtenerSecuencia(elem,sii))).place(x=275,y=elem*25)
+
+
 
 def cargaSimulacion():
     archivo = filedialog.askopenfilename(title="abrir",filetypes=(("Archivos xml","*.xml"),("Archivo Python","*.py")))
@@ -38,7 +47,10 @@ def cargaSimulacion():
     messagebox.showinfo(title="AVISO",message="SIMULACION CARGADA")    
 
     cantidadP=int(productos.cantidadElementos())
-    listaProductos
+    contador=1
+    for cant in range(1,cantidadP+1):
+        listaProductos.insert(contador,str(productos.verificar(contador)))
+        contador=contador+1
     
             
 
@@ -159,20 +171,20 @@ tree.heading("#0",text="Name",anchor=CENTER)
 tree.heading("#1", text="Price",anchor=CENTER)
 tree.pack(side=tkinter.RIGHT)
 
-lblProductos = Label(ventana,text="Productos: ").place(x=10,y=10)
-"""
-listaProductos = Listbox(ventana,width=40)
-listaProductos.insert(0,"PROGRAMACION BASICA")
-listaProductos.place(x=10,y=38)"""
+lblProductos = Label(ventana,text="PRODUCTOS: ").place(x=10,y=10)
 
-listaProductos=ttk.Combobox(ventana,width=40)
+listaProductos = Listbox(ventana,width=40)
 listaProductos.place(x=10,y=38)
 
+lblComponentes=Label(ventana,text="COMPONENTES: ").place(x=10,y=215)
+listaComponentes = Listbox(ventana,width=40)
+listaComponentes.place(x=10,y=250)
 
-
+botonComponentes = Button(ventana,text="MOSTRAR COMPONENTES")
+botonComponentes.place(x=105,y=215)
 
 botonGraficarSecuencia=Button(ventana,text="GRAFICA SECUENCIA",command=reporteColaSecuencia)
-botonGraficarSecuencia.place(x=75,y=10)
+botonGraficarSecuencia.place(x=105,y=10)
 
 
 ventana.mainloop()

@@ -37,7 +37,6 @@ class listaSimulacion:
             while aux!=None:
                 if aux.id==id:
                     return aux.producto
-                    
                 aux = aux.siguiente
 
     def modificar(self,id,producto):

@@ -99,3 +99,5 @@ class matriz:
             
             eColumna = eColumna.siguiente            
         print("****************** Fin recorrido por columnas ******************\n")
+    
+    
