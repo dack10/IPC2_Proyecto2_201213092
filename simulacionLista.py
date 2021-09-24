@@ -28,7 +28,7 @@ class listaSimulacion:
             while aux!=None:
                 contador=contador+1
                 aux=aux.siguiente
-            print("cantidad de elemetnos"+str(contador))
+            print("cantidad de elementos   "+str(contador))
             return contador
 
     def verificar(self,id):

@@ -1,34 +1,31 @@
-from Nodo_Linea_Produccion import nodoEncabezado
-from Nodo_Componente import Nodo
-from Lista_Linea_Produccion import listaEncabezado
+from tablaEncabezado import tablaEncabezado
+from tablaNodoEncabezado import tablaNodoEncabezado
+from tablaNodoMatriz import tablaNodoMatriz
 
-# clase para el manejo de la matriz, controla tanto la insercion de nodos tipo encabezado 
-# como la insercion de nodos internos a la matriz, se maneja ordenamiento ascendente
-class matriz:
+class Tablamatriz:
     
     def __init__(self):
-        self.eFilas = listaEncabezado()  # instancia lista encabezados por filas
-        self.eColumnas = listaEncabezado() # instancia lista encabezados por columnas
+        self.eFilas = tablaEncabezado()  
+        self.eColumnas = tablaEncabezado() 
     
-    def insertar(self, fila, columna, valor):
-        nuevo = Nodo(fila, columna, valor)
-
-        # insercion encabezado por filas
+    def insertar(self, fila, columna, valor,estado):
+        nuevo = tablaNodoMatriz(fila, columna, valor,estado)
+    
         eFila = self.eFilas.getEncabezado(fila)
-        if eFila == None:                           # no existe el encabezado solicitado
-            eFila = nodoEncabezado(fila)            # se crea el nuevo encabezado
+        if eFila == None:                          
+            eFila = tablaNodoEncabezado(fila)            
             eFila.accesoNodo = nuevo
             self.eFilas.setEncabezado(eFila)        
-        else:                                       # ya existe el encabezado solicitado
+        else:                                      
             if nuevo.columna < eFila.accesoNodo.columna: 
-                nuevo.derecha = eFila.accesoNodo      # se inserta al inicio de esa lista
+                nuevo.derecha = eFila.accesoNodo     
                 eFila.accesoNodo.izquierda = nuevo
                 eFila.accesoNodo = nuevo
             else:
                 actual = eFila.accesoNodo
                 while actual.derecha != None:
                     if nuevo.columna < actual.derecha.columna:
-                        nuevo.derecha = actual.derecha  # se inserta en medio de la lista
+                        nuevo.derecha = actual.derecha  
                         actual.derecha.izquierda = nuevo
                         nuevo.izquierda = actual
                         actual.derecha = nuevo
@@ -36,26 +33,26 @@ class matriz:
                     actual = actual.derecha
                 
                 if actual.derecha == None:
-                    actual.derecha = nuevo            # se inserta al final de la lista
+                    actual.derecha = nuevo         
                     nuevo.izquierda = actual
         
 
-        # insercion encabezado por columnas
+        
         eColumna = self.eColumnas.getEncabezado(columna)
-        if eColumna == None:                           # no existe el encabezado solicitado
-            eColumna = nodoEncabezado(columna)            # se crea el nuevo encabezado
+        if eColumna == None:                           
+            eColumna = tablaNodoEncabezado(columna)           
             eColumna.accesoNodo = nuevo
             self.eColumnas.setEncabezado(eColumna)        
-        else:                                       # ya existe el encabezado solicitado
+        else:                                      
             if nuevo.fila < eColumna.accesoNodo.fila: 
-                nuevo.abajo = eColumna.accesoNodo      # se inserta al inicio de esa lista
+                nuevo.abajo = eColumna.accesoNodo   
                 eColumna.accesoNodo.arriba = nuevo
                 eColumna.accesoNodo = nuevo
             else:
                 actual = eColumna.accesoNodo
                 while actual.abajo != None:
                     if nuevo.fila < actual.abajo.fila:
-                        nuevo.abajo = actual.abajo  # se inserta en medio de la lista
+                        nuevo.abajo = actual.abajo  
                         actual.abajo.arriba = nuevo
                         nuevo.arriba = actual
                         actual.abajo = nuevo
@@ -63,7 +60,7 @@ class matriz:
                     actual = actual.abajo
                 
                 if actual.abajo == None:
-                    actual.abajo = nuevo            # se inserta al final de la lista
+                    actual.abajo = nuevo     
                     nuevo.arriba = actual
                        
 
@@ -92,14 +89,14 @@ class matriz:
 
             actual = eColumna.accesoNodo
             print("\nColumna "+str(actual.columna))
-            print("Fila   Valor")
+            print("Fila           Estado                Valor")
             while actual != None:
-                print(str(actual.fila)+"      "+actual.valor)
+                print(str(actual.fila)+"      "+actual.estado + "      "+actual.valor)
                 actual = actual.abajo
             
             eColumna = eColumna.siguiente            
         print("****************** Fin recorrido por columnas ******************\n")
-    
+
     def cantidadLineas(self):
         columna=self.eColumnas.primero
         contador=0

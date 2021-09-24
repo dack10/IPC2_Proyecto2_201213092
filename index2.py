@@ -1,4 +1,5 @@
 
+from tablaNodoMatriz import tablaNodoMatriz
 from Lista_Linea_Produccion import listaEncabezado
 from tkinter import *
 from tkinter import ttk
@@ -10,12 +11,48 @@ import re
 from simulacionLista import listaSimulacion
 from Lista_componentes import matriz
 from SecuenciaLista import matriz_SecuenciaProducto
+from tablaMatriz import Tablamatriz
 mat = matriz()
 secuencias = matriz_SecuenciaProducto()
 productos=listaSimulacion()
+tabla = Tablamatriz()
 
 def abrir():
     messagebox.showinfo(title="Mensaje",message="hola")
+
+def obtenerTiempo():
+    lineass=int(mat.cantidadLineas())
+    for num in range(0,lineass+1):
+        if num==0:
+            tabla.insertar(1,num,"1","TIEMPO")
+        elif num>0:    
+            tabla.insertar(1,num,"C1","MOVER A: ")
+    tabla.recorrerColumnas()
+
+    for item in listaProductos.curselection():
+        productoSeleccionado=listaProductos.get(item)
+
+    print(secuencias.obtenerSecuencia(1,productoSeleccionado))
+    cantidadElementosSecuencia=int(secuencias.cantidadElementos(productoSeleccionado))
+    
+    for n in range(1,cantidadElementosSecuencia+1):
+        sec= secuencias.obtenerSecuencia(n,productoSeleccionado)
+        print(str(sec))
+        lin = re.search(r"\bL\d+",str(sec))
+        lin2=lin.group() #Linea de la secuencia
+        print(lin2)
+        con=re.search(r"\wC\d+",str(sec))
+        con2=con.group()
+        con3=re.sub(r"\bp","",str(con2))        
+        con4=str(con3) #componente de secuencia
+        print(con4)
+
+        
+
+
+
+    
+
 
 
 def reporteColaSecuencia():
@@ -149,7 +186,7 @@ mnuArchivo.add_command(label="Salir",command=ventana.destroy)
 barraMenu.add_cascade(label="ARCHIVO",menu=mnuArchivo)
 
 mnuReportes=Menu(barraMenu,tearoff=0)
-mnuReportes.add_command(label="REPORTES",command=abrir)
+mnuReportes.add_command(label="REPORTES",command=obtenerTiempo)
 mnuReportes.add_command(label="REPORTE DE COLA DE SECUENCIA", command=reporteColaSecuencia)
 mnuReportes.add_command(label="Guardar")
 mnuReportes.add_command(label="Cerrar")
@@ -165,11 +202,16 @@ barraMenu.add_cascade(label="AYUDA",menu=mnuAyuda)
 
 ventana.config(menu=barraMenu)
 
-tree = ttk.Treeview(height=10,columns=2)
+tree = ttk.Treeview(ventana,height=10,columns=2)
 tree.grid(row=4,column=0,columnspan=2)
 tree.heading("#0",text="Name",anchor=CENTER)
 tree.heading("#1", text="Price",anchor=CENTER)
 tree.pack(side=tkinter.RIGHT)
+
+arbol = ttk.Treeview(ventana,columns=("PRECIO","CANTIDAD"))
+arbol.insert("",END,text="PRINCIPE",values=("10","15"))
+"""arbol.insert("",END,text="MENU 1")
+arbol.place(x=10,y=425)"""
 
 lblProductos = Label(ventana,text="PRODUCTOS: ").place(x=10,y=10)
 
@@ -185,6 +227,9 @@ botonComponentes.place(x=105,y=215)
 
 botonGraficarSecuencia=Button(ventana,text="GRAFICA SECUENCIA",command=reporteColaSecuencia)
 botonGraficarSecuencia.place(x=105,y=10)
+
+botonTiempo = Button(ventana,text="TIEMPO DE ENSAMBLE",command=obtenerTiempo)
+botonTiempo.place(x=10,y=450)
 
 
 ventana.mainloop()

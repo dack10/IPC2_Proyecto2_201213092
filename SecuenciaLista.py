@@ -98,7 +98,7 @@ class matriz_SecuenciaProducto:
             eColumna = eColumna.siguiente            
         print("****************** Fin recorrido por columnas ******************\n")
     
-    def obtenerSecuencia(self,fila,producto):
+    def obtenerSecuencia(self,fila,producto): #obtiene el valor de secuencia segun fila y segun el producto
         prod = self.eColumnas.primero
         while prod!=None:
                 actual = prod.accesoNodo
@@ -109,7 +109,7 @@ class matriz_SecuenciaProducto:
                         actual=actual.abajo
                 prod=prod.siguiente
 
-    def cantidadElementos(self,producto):
+    def cantidadElementos(self,producto): # cantidad de la secuencia del producto
         contador=0
         prodd = self.eColumnas.primero
         while prodd!=None:
@@ -119,6 +119,6 @@ class matriz_SecuenciaProducto:
                     contador=contador+1
                 actual=actual.abajo
             prodd=prodd.siguiente
-            print("cantidad de elemetnos"+str(contador))
+            print("cantidad de elementos: "+str(contador))
         return contador          
             
