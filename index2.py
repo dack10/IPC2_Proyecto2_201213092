@@ -1,4 +1,5 @@
-
+from os import system,startfile
+import os
 from tablaNodoMatriz import tablaNodoMatriz
 from Lista_Linea_Produccion import listaEncabezado
 from tkinter import *
@@ -47,7 +48,7 @@ def obtenerTiempo():
         con4=str(con3) #componente de secuencia
         print(con4)
 
-        
+        tabla.insertar
 
 
 
@@ -65,6 +66,50 @@ def reporteColaSecuencia():
         lb = tkinter.Label(ventana,text=str(secuencias.obtenerSecuencia(elem,sii))).place(x=275,y=elem*25)
 
 
+def graficarSecuencia():
+
+    for item in listaProductos.curselection():
+        s=listaProductos.get(item)
+        messagebox.showinfo(title="verificar",message=s)
+    nombre=str(s)
+    
+   
+    graphviz='''
+        digraph L{
+        node[shape=box fillcolor="white" style =filled]
+    
+        subgraph cluster_p{
+        label= "SECUENCIA DE '''+nombre+''' " '''
+
+    graphviz=graphviz+'''
+        bgcolor = "blue"
+        raiz[label ='''+nombre+''']
+        edge[dir = "both"]
+        /*Aqui creamos las cabeceras
+        de las filas*/'''
+        
+    cant=secuencias.cantidadElementos(nombre)
+    for secuencia in range(1,cant+1):
+        graphviz=graphviz+'''
+        Fila'''+str(secuencia)+'''[label=" ''' +str(secuencia)+'''",group='''+str(1)+'''];'''
+
+
+    for filaaa in range(1,cant):
+        graphviz=graphviz+'''
+        Fila'''+str(filaaa)+'''->Fila'''+str(filaaa+1)+'''
+            '''    
+    graphviz=graphviz+'''
+        raiz->Fila1;
+        }
+        }
+        '''
+    miArchivo=open('graphviz.dot','w')
+    miArchivo.write(graphviz)
+    miArchivo.close()
+    
+    system('dot -Tpng graphviz.dot -o graphviz.png')
+    system('cd ./graphviz.png')
+    startfile('graphviz.png')
 
 def cargaSimulacion():
     archivo = filedialog.askopenfilename(title="abrir",filetypes=(("Archivos xml","*.xml"),("Archivo Python","*.py")))
@@ -225,7 +270,7 @@ listaComponentes.place(x=10,y=250)
 botonComponentes = Button(ventana,text="MOSTRAR COMPONENTES")
 botonComponentes.place(x=105,y=215)
 
-botonGraficarSecuencia=Button(ventana,text="GRAFICA SECUENCIA",command=reporteColaSecuencia)
+botonGraficarSecuencia=Button(ventana,text="GRAFICA SECUENCIA",command=graficarSecuencia)
 botonGraficarSecuencia.place(x=105,y=10)
 
 botonTiempo = Button(ventana,text="TIEMPO DE ENSAMBLE",command=obtenerTiempo)

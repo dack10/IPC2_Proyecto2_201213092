@@ -1,0 +1,11 @@
+<Simulacion>
+    <Nombre>Prueba1</Nombre>
+    <ListadoProductos>
+        <Producto>SmartWatch</Producto>
+        <Producto>SmartPhone</Producto>
+        <Producto>SmartWatch</Producto>
+        <Producto>SmartPhone</Producto>
+        <Producto>SmartWatch</Producto>
+        <Producto>SmartPhone</Producto>
+    </ListadoProductos>
+</Simulacion>
