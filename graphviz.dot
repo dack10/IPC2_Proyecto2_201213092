@@ -3,16 +3,16 @@
         node[shape=box fillcolor="white" style =filled]
     
         subgraph cluster_p{
-        label= "SECUENCIA DE SmartWatch " 
+        label= "SECUENCIA DE SmartPhone " 
         bgcolor = "blue"
-        raiz[label =SmartWatch]
+        raiz[label =SmartPhone]
         edge[dir = "both"]
         /*Aqui creamos las cabeceras
         de las filas*/
-        Fila1[label=" 1",group=1];
-        Fila2[label=" 2",group=1];
-        Fila3[label=" 3",group=1];
-        Fila4[label=" 4",group=1];
+        Fila1[label=" L1pC3p",group=1];
+        Fila2[label=" L2pC2p",group=1];
+        Fila3[label=" L1pC1p",group=1];
+        Fila4[label=" L2pC4p",group=1];
         Fila1->Fila2
             
         Fila2->Fila3

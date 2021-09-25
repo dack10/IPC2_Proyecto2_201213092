@@ -91,7 +91,7 @@ def graficarSecuencia():
     cant=secuencias.cantidadElementos(nombre)
     for secuencia in range(1,cant+1):
         graphviz=graphviz+'''
-        Fila'''+str(secuencia)+'''[label=" ''' +str(secuencia)+'''",group='''+str(1)+'''];'''
+        Fila'''+str(secuencia)+'''[label=" ''' +str(secuencias.obtenerSecuencia(secuencia,nombre))+'''",group='''+str(1)+'''];'''
 
 
     for filaaa in range(1,cant):
