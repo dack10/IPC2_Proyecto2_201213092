@@ -1,5 +1,7 @@
-from os import system,startfile
+from os import name, system,startfile
 import os
+from sys import winver
+
 from tablaNodoMatriz import tablaNodoMatriz
 from Lista_Linea_Produccion import listaEncabezado
 from tkinter import *
@@ -13,49 +15,106 @@ from simulacionLista import listaSimulacion
 from Lista_componentes import matriz
 from SecuenciaLista import matriz_SecuenciaProducto
 from tablaMatriz import Tablamatriz
+
 mat = matriz()
 secuencias = matriz_SecuenciaProducto()
 productos=listaSimulacion()
 tabla = Tablamatriz()
 
+
 def abrir():
     messagebox.showinfo(title="Mensaje",message="hola")
 
+def generarSalidaXML():
+    for item in listaProductos.curselection():
+        nombreP=str(listaProductos.get(item))
+        messagebox.showinfo(title="verificar",message=nombreP)
+        
+    root = xml.Element("SalidaSimulacion")
+    salto=xml.SubElement(root,"\n")
+    doc = xml.SubElement(root,"Nombre")
+    productos.recorrer()
+    nombreSIMULACION=productos.obtenerNombreSimulacion("SmartWatch")
+    doc.text=nombreSIMULACION
+    print(nombreSIMULACION)
+    nodo1=xml.SubElement(root,"ListadoProductos")
+    nodo1.text="texto de nodo 1"
+    xml.SubElement(root,"nodo2",atributo="algo").text="texto2"
+    arbol=xml.ElementTree(root)
+    arbol.write("prueba.xml")
+
 def obtenerTiempo():
+    #Llenar todas las filas con el componente 1
     lineass=int(mat.cantidadLineas())
     for num in range(0,lineass+1):
         if num==0:
-            tabla.insertar(1,num,"1","TIEMPO")
+            tabla.insertar(1,num,1,"TIEMPO")
         elif num>0:    
-            tabla.insertar(1,num,"C1","MOVER A: ")
+            tabla.insertar(1,num,1,"MOVER A: ")
     tabla.recorrerColumnas()
+    #fin de llenar 
 
     for item in listaProductos.curselection():
-        productoSeleccionado=listaProductos.get(item)
+        productoSeleccionado=listaProductos.get(item) #producto seleccionado para generar el tiempo
 
     print(secuencias.obtenerSecuencia(1,productoSeleccionado))
     cantidadElementosSecuencia=int(secuencias.cantidadElementos(productoSeleccionado))
-    
+    contador = 2
     for n in range(1,cantidadElementosSecuencia+1):
         sec= secuencias.obtenerSecuencia(n,productoSeleccionado)
         print(str(sec))
         lin = re.search(r"\bL\d+",str(sec))
         lin2=lin.group() #Linea de la secuencia
-        print(lin2)
+        print("Linea numero: "+str(lin2))
+        linNum = re.sub(r"\bL","",str(lin2))
+        linNumm=int(linNum)#Numero de la linea
         con=re.search(r"\wC\d+",str(sec))
         con2=con.group()
         con3=re.sub(r"\bp","",str(con2))        
         con4=str(con3) #componente de secuencia
-        print(con4)
-
-        tabla.insertar
-
-
-
+        con5=re.sub(r"\bC","",str(con4))
+        con6=int(con5) #numero de componente de la secuencia
+        print("Numero de componente"+str(con6))
+        
+        #N= tabla.igualMayorMenor(linNumm,con6)
+        M=tabla.obtenerUltimoValor(linNumm)
+        print(M)
+        b=True
+        
+        while b!=False:
+            print("si entro")
+            M=tabla.obtenerUltimoValor(linNumm)
+            if M==con6:
+                print("entro en igual")
+                bo=tabla.existeFilaSiguiente(contador)
+                print(bo)
+                if bo ==True:
+                    contador=contador+1
+                elif bo==False:
+                    tabla.insertar(contador,linNumm,tabla.obtenerUltimoValor(linNumm),"ENSAMBLAR C")
+                        #tabla.insertar(4,linNumm+1,0,"NO") 
+                    b=False   
+                    contador = 2
+                    tabla.recorrerColumnas()
+            else:
+                if M<con6:
+                    tabla.insertar(contador,linNumm,tabla.obtenerUltimoValor(linNumm)+int(1),"MOVER A: ")
+                    contador=contador+1
+                    b=True
+                    print("aqui entro en componente es mayor a ultimo elemento")
+                    tabla.recorrerColumnas()
+                elif M>con6:
+                    tabla.insertar(contador,linNumm,tabla.obtenerUltimoValor(linNumm)-int(1),"MOVER A: ")
+                    print("aqui entro en componente es menor que ultimo elemento")
+                    contador = contador +1
+                    tabla.recorrerColumnas()
+    tabla.recorrerColumnas()
+    #print("EL VLAOR ES:"+str(N))
+    colum=tabla.valorColumna()
+    fil=tabla.valorFila()
     
 
-
-
+   
 def reporteColaSecuencia():
     for item in listaProductos.curselection():
         sii=listaProductos.get(item)
@@ -64,7 +123,6 @@ def reporteColaSecuencia():
     cantEle = secuencias.cantidadElementos(sii)
     for elem in range(1,cantEle+1):
         lb = tkinter.Label(ventana,text=str(secuencias.obtenerSecuencia(elem,sii))).place(x=275,y=elem*25)
-
 
 def graficarSecuencia():
 
@@ -76,7 +134,7 @@ def graficarSecuencia():
    
     graphviz='''
         digraph L{
-        node[shape=box fillcolor="white" style =filled]
+        node[shape=component fillcolor="white" style =filled]
     
         subgraph cluster_p{
         label= "SECUENCIA DE '''+nombre+''' " '''
@@ -84,7 +142,7 @@ def graficarSecuencia():
     graphviz=graphviz+'''
         bgcolor = "blue"
         raiz[label ='''+nombre+''']
-        edge[dir = "both"]
+        edge[dir = "forward"]
         /*Aqui creamos las cabeceras
         de las filas*/'''
         
@@ -112,6 +170,12 @@ def graficarSecuencia():
     startfile('graphviz.png')
 
 def cargaSimulacion():
+    try:
+        for it in range(1,10):
+            listaProductos.delete(it)
+    except:
+        print("no se pudo")
+
     archivo = filedialog.askopenfilename(title="abrir",filetypes=(("Archivos xml","*.xml"),("Archivo Python","*.py")))
     objetoTree = xml.parse(archivo)
     root = objetoTree.getroot()
@@ -133,9 +197,6 @@ def cargaSimulacion():
     for cant in range(1,cantidadP+1):
         listaProductos.insert(contador,str(productos.verificar(contador)))
         contador=contador+1
-    
-            
-
     
 def cargarMaquina():
     archivo = filedialog.askopenfilename(title="abrir",filetypes=(("Archivos xml","*.xml"),("Archivo Python","*.py")))
@@ -208,7 +269,6 @@ def estudiante():
     estud.resizable(0,0)
     estud.mainloop()
     
-
 ventana= Tk()
 
 x_ventana = ventana.winfo_screenwidth() // 2 - 700 // 2
@@ -233,7 +293,7 @@ barraMenu.add_cascade(label="ARCHIVO",menu=mnuArchivo)
 mnuReportes=Menu(barraMenu,tearoff=0)
 mnuReportes.add_command(label="REPORTES",command=obtenerTiempo)
 mnuReportes.add_command(label="REPORTE DE COLA DE SECUENCIA", command=reporteColaSecuencia)
-mnuReportes.add_command(label="Guardar")
+mnuReportes.add_command(label="SALIDA XML",command=generarSalidaXML)
 mnuReportes.add_command(label="Cerrar")
 mnuReportes.add_command(label="Salir",command=ventana.destroy)
 barraMenu.add_cascade(label="REPORTES",menu=mnuReportes)
@@ -247,16 +307,31 @@ barraMenu.add_cascade(label="AYUDA",menu=mnuAyuda)
 
 ventana.config(menu=barraMenu)
 
-tree = ttk.Treeview(ventana,height=10,columns=2)
-tree.grid(row=4,column=0,columnspan=2)
-tree.heading("#0",text="Name",anchor=CENTER)
-tree.heading("#1", text="Price",anchor=CENTER)
-tree.pack(side=tkinter.RIGHT)
+tree = ttk.Treeview(ventana,height=25,columns=("LINEA 1","LINEA 2","Linea 3","Linea 4"))
+tree.grid(row=3,column=0,columnspan=2)
+for n in range(0,5):
+    tree.heading("#"+str(n),text="Linea "+str(n+1),anchor=CENTER)
 
-arbol = ttk.Treeview(ventana,columns=("PRECIO","CANTIDAD"))
-arbol.insert("",END,text="PRINCIPE",values=("10","15"))
-"""arbol.insert("",END,text="MENU 1")
-arbol.place(x=10,y=425)"""
+item1=tree.insert("",END,text="DIAS")
+item2=tree.insert("",END,text="año")
+tree.insert(item1,END,text="LUNES")
+tree.insert("",1,text="jdfjadf")
+tree.pack(side=tkinter.RIGHT)
+tree.place(x=260,y=5)
+
+arbol = ttk.Treeview(ventana,columns=("col1","col2"))
+arbol.column("#0",width=80)
+arbol.column("col1",width=80,anchor=CENTER)
+arbol.column("col1",width=80,anchor=CENTER)
+
+arbol.heading("#0",text="pRODUCTO",anchor=CENTER)
+arbol.heading("col1",text="PRECIO",anchor=CENTER)
+arbol.heading("col2",text="Cantidad",anchor=CENTER)
+
+arbol.insert("",END,text="Azucar",values=("28","2"))
+
+arbol.place(x=15,y=450)
+
 
 lblProductos = Label(ventana,text="PRODUCTOS: ").place(x=10,y=10)
 
@@ -274,7 +349,7 @@ botonGraficarSecuencia=Button(ventana,text="GRAFICA SECUENCIA",command=graficarS
 botonGraficarSecuencia.place(x=105,y=10)
 
 botonTiempo = Button(ventana,text="TIEMPO DE ENSAMBLE",command=obtenerTiempo)
-botonTiempo.place(x=10,y=450)
+botonTiempo.place(x=10,y=400)
 
-
+ventana["bg"]="#fb0"
 ventana.mainloop()
