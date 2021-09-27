@@ -1,12 +1,12 @@
 from ProductoNodoEncabezado import nodoEncabezado
 
 
-# clase para el manejo de encabezados(filas y columnas), contiene insertar y obtener encabezado
+
 class listaEncabezado:
     def __init__(self,primero=None):
         self.primero = primero
 
-    # se maneja de la misma forma que una lista doblemente enlazada
+    
     def setEncabezado(self, nuevo):
         if self.primero == None:
             self.primero = nuevo

@@ -1,0 +1,5 @@
+<SalidaSimulacion>
+<Nombre>Prueba1</Nombre>
+<ListadoProductos>texto de nodo 1</ListadoProductos>
+<nodo2 atributo="algo">texto2</nodo2>
+</SalidaSimulacion>

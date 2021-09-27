@@ -1,18 +1,18 @@
 
         digraph L{
-        node[shape=box fillcolor="white" style =filled]
+        node[shape=component fillcolor="white" style =filled]
     
         subgraph cluster_p{
-        label= "SECUENCIA DE SmartPhone " 
+        label= "SECUENCIA DE SmartWatch " 
         bgcolor = "blue"
-        raiz[label =SmartPhone]
-        edge[dir = "both"]
+        raiz[label =SmartWatch]
+        edge[dir = "forward"]
         /*Aqui creamos las cabeceras
         de las filas*/
-        Fila1[label=" L1pC3p",group=1];
-        Fila2[label=" L2pC2p",group=1];
-        Fila3[label=" L1pC1p",group=1];
-        Fila4[label=" L2pC4p",group=1];
+        Fila1[label=" L1pC2p",group=1];
+        Fila2[label=" L2pC1p",group=1];
+        Fila3[label=" L2pC2p",group=1];
+        Fila4[label=" L1pC4p",group=1];
         Fila1->Fila2
             
         Fila2->Fila3

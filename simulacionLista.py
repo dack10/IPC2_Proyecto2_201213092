@@ -14,6 +14,15 @@ class listaSimulacion:
             self.fin.siguiente = nuevo
             self.fin = nuevo
     
+    def obtenerNombreSimulacion(self,producto):
+        if self.inicio!=None:
+            aux=self.inicio
+            while aux!=None:
+                if aux.producto==producto:
+                    return aux.nombreSimulacion
+                aux=aux.siguiente
+
+    
     def recorrer(self):
         if self.inicio != None:
             aux = self.inicio

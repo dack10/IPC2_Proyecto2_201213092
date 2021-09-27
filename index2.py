@@ -312,26 +312,8 @@ tree.grid(row=3,column=0,columnspan=2)
 for n in range(0,5):
     tree.heading("#"+str(n),text="Linea "+str(n+1),anchor=CENTER)
 
-item1=tree.insert("",END,text="DIAS")
-item2=tree.insert("",END,text="año")
-tree.insert(item1,END,text="LUNES")
-tree.insert("",1,text="jdfjadf")
 tree.pack(side=tkinter.RIGHT)
 tree.place(x=260,y=5)
-
-arbol = ttk.Treeview(ventana,columns=("col1","col2"))
-arbol.column("#0",width=80)
-arbol.column("col1",width=80,anchor=CENTER)
-arbol.column("col1",width=80,anchor=CENTER)
-
-arbol.heading("#0",text="pRODUCTO",anchor=CENTER)
-arbol.heading("col1",text="PRECIO",anchor=CENTER)
-arbol.heading("col2",text="Cantidad",anchor=CENTER)
-
-arbol.insert("",END,text="Azucar",values=("28","2"))
-
-arbol.place(x=15,y=450)
-
 
 lblProductos = Label(ventana,text="PRODUCTOS: ").place(x=10,y=10)
 
