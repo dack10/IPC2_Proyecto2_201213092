@@ -1,7 +1,6 @@
 from os import name, system,startfile
 import os
 from sys import winver
-
 from tablaNodoMatriz import tablaNodoMatriz
 from Lista_Linea_Produccion import listaEncabezado
 from tkinter import *
